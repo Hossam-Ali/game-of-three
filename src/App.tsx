@@ -7,7 +7,6 @@ function App() {
   const socket = useSocket('http://localhost:6126');
   const dispath = useDispatch();
 
-  console.log('Test');
   return (
     <>
       <h1> Vite + React</h1>
