@@ -1,16 +1,13 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { State } from './redux/types.d';
-import './App.css';
+import { useDispatch } from 'react-redux';
 import { setName } from './redux/user';
 import useSocket from './hooks/socket';
+import './App.scss';
 
 function App() {
-  const socket = useSocket('http://localhost:612');
-
-  const { name } = useSelector((state: State) => state.user);
+  const socket = useSocket('http://localhost:6126');
   const dispath = useDispatch();
 
-  console.log('name', name);
+  console.log('Test');
   return (
     <>
       <h1> Vite + React</h1>
