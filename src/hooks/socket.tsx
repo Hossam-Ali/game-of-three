@@ -1,22 +1,26 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { Socket } from 'socket.io';
 import io from 'socket.io-client';
 
-const useSocket = (serverUrl: string) => {
-  const [socket, setSocket] = useState<Socket | null>(null);
+const useSocket = (url: string): Socket => {
+  const socketRef = useRef<Socket | null>(null);
 
   useEffect(() => {
-    // Create a new socket instance and set the state
-    const newSocket = io(serverUrl);
-    setSocket(newSocket);
+    // Create a new socket instance if it doesn't exist
+    if (!socketRef.current) {
+      socketRef.current = io(url);
+    }
 
-    // Clean up the socket connection when the component unmounts
+    // Cleanup function to close the socket when the component unmounts
     return () => {
-      newSocket.disconnect();
+      if (socketRef.current) {
+        socketRef.current.disconnect();
+        socketRef.current = null;
+      }
     };
-  }, [serverUrl]);
+  }, [url]);
 
-  return socket;
+  return socketRef.current!;
 };
 
 export default useSocket;
