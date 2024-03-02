@@ -1,0 +1,13 @@
+.header-component {
+  position: fixed !important;
+  z-index: 9999;
+
+  .MuiContainer-root {
+    max-width: unset;
+  }
+
+  & .user-settings {
+    position: absolute;
+    right: 0;
+  }
+}

@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import Header from './components/header';
+// import Dialog from './components/dialog';
+import Sidebar from './components/sidebar';
 import { setName } from './redux/user';
 import useSocket from './hooks/socket';
-import './App.scss';
 
 function App() {
   const socketRef = useSocket('http://localhost:6126');
@@ -13,30 +15,30 @@ function App() {
   };
 
   useEffect(() => {
-    if (!socketRef.current) return;
+    const { current } = socketRef;
+    if (!current) return;
 
-    socketRef.current.on('message', handleServerMessage);
+    current.on('message', handleServerMessage);
 
     // Clean up the event listener when the component unmounts
     return () => {
-      socketRef.current?.off('message', handleServerMessage);
+      current?.off('message', handleServerMessage);
     };
   }, [socketRef]);
 
   return (
     <>
+      {/* <Dialog /> */}
+      <Header />
+      <Sidebar />
       <button
         onClick={() => {
           socketRef.current?.emit('login', { username: 'testing' });
           dispath(setName(Math.random().toString()));
         }}
       >
-        No
+        Test
       </button>
-
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   );
 }
