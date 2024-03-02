@@ -18,9 +18,7 @@ export default function PermanentDrawerLeft() {
   const [currentRoom, setCurrentRoom] = useState(0);
   const rooms = ['Berlin CPU', 'Amsterdam CPU', 'Hossam'];
 
-  const handleRoomChange = (ind: number) => {
-    setCurrentRoom(ind);
-  };
+  const handleRoomChange = (ind: number) => setCurrentRoom(ind);
 
   return (
     <Box sx={{ display: 'flex' }} className="sidebar-component">
@@ -46,6 +44,7 @@ export default function PermanentDrawerLeft() {
               disablePadding
               onClick={() => handleRoomChange(ind)}
               className={currentRoom === ind ? 'active-room' : ''}
+              data-testid="rooms-list"
             >
               <ListItemButton>
                 <ListItemIcon>

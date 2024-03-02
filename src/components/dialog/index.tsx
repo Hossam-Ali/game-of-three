@@ -27,40 +27,46 @@ export default function FormDialog() {
   };
 
   return (
-    <>
-      <Dialog
-        open={open}
-        disableEscapeKeyDown={true}
-        fullScreen={fullScreen}
-        fullWidth={true}
-        PaperProps={{
-          component: 'form',
-          onSubmit: handleOnSubmit,
-        }}
-        className="dialog-component"
-        aria-labelledby="responsive-dialog-title"
+    <Dialog
+      open={open}
+      disableEscapeKeyDown={true}
+      fullScreen={fullScreen}
+      fullWidth={true}
+      PaperProps={{
+        component: 'form',
+        onSubmit: handleOnSubmit,
+      }}
+      className="dialog-component"
+      aria-labelledby="responsive-dialog-title"
+      data-testid="dialog-component"
+    >
+      <DialogTitle
+        id="responsive-dialog-title"
+        className="dialog-header"
+        data-testid="dialog-header"
       >
-        <DialogTitle id="responsive-dialog-title" className="dialog-header">
+        Login
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText>Please enter your name</DialogContentText>
+        <TextField
+          autoFocus
+          required
+          margin="dense"
+          id="name"
+          name="name"
+          label="Name"
+          type="text"
+          fullWidth
+          variant="standard"
+          data-testid="user-input"
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button type="submit" data-testid="submit-button">
           Login
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText>Please enter your name</DialogContentText>
-          <TextField
-            autoFocus
-            required
-            margin="dense"
-            id="name"
-            name="name"
-            label="Name"
-            type="text"
-            fullWidth
-            variant="standard"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button type="submit">Login</Button>
-        </DialogActions>
-      </Dialog>
-    </>
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }
