@@ -68,13 +68,18 @@ const Header = () => {
           </Typography>
           <Box sx={{ flexGrow: 0 }} className="user-settings">
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <IconButton
+                onClick={handleOpenUserMenu}
+                sx={{ p: 0 }}
+                data-testid="user-settings"
+              >
                 <Avatar alt="user" />
               </IconButton>
             </Tooltip>
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
+              data-testid="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
                 vertical: 'top',
@@ -88,11 +93,18 @@ const Header = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              {Boolean(anchorElUser) &&
+                settings.map((setting) => (
+                  <MenuItem
+                    key={setting}
+                    onClick={handleCloseUserMenu}
+                    data-testid="menu-items"
+                  >
+                    <Typography textAlign="center" data-testid="menu-item">
+                      {setting}
+                    </Typography>
+                  </MenuItem>
+                ))}
             </Menu>
           </Box>
         </Toolbar>
