@@ -9,7 +9,7 @@ describe('FormDialog Component', () => {
     // Check if the dialog and its elements are rendered
     expect(screen.getByTestId('dialog-component')).toBeInTheDocument();
     expect(screen.getByTestId('dialog-header')).toHaveTextContent('Login');
-    expect(screen.getByText('Please enter your name')).toBeInTheDocument();
+    expect(screen.getByTestId('dialog-content')).toBeInTheDocument();
     expect(screen.getByTestId('user-input')).toBeInTheDocument();
     expect(screen.getByTestId('submit-button')).toBeInTheDocument();
   });

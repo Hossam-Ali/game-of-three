@@ -10,7 +10,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import './styles.scss';
 
-export default function FormDialog() {
+const FormDialog = () => {
   const [open, setOpen] = useState(true);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -48,7 +48,9 @@ export default function FormDialog() {
         Login
       </DialogTitle>
       <DialogContent>
-        <DialogContentText>Please enter your name</DialogContentText>
+        <DialogContentText data-testid="dialog-content">
+          Please enter your name
+        </DialogContentText>
         <TextField
           autoFocus
           required
@@ -69,4 +71,6 @@ export default function FormDialog() {
       </DialogActions>
     </Dialog>
   );
-}
+};
+
+export default FormDialog;

@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import PageContent from './containers/pageContent';
 import Header from './components/header';
-import Dialog from './components/dialog';
-import Sidebar from './components/sidebar';
+// import Dialog from './components/dialog';
 import { setName } from './redux/user';
 import useSocket from './hooks/socket';
 
@@ -28,9 +28,9 @@ function App() {
 
   return (
     <>
-      <Dialog />
+      {/* <Dialog /> */}
       <Header />
-      <Sidebar />
+      <PageContent />
       <button
         onClick={() => {
           socketRef.current?.emit('login', { username: 'testing' });
