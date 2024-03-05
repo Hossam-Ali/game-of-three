@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -8,13 +9,38 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import axiosInstance from '../services';
+import useSocket from '../../hooks/socket';
+import { Room, initialState } from '../../redux/types';
+import { addRoom } from '../../redux/rooms';
 import './styles.scss';
 
 const FormDialog = () => {
   const [open, setOpen] = useState(true);
+  const [name, setName] = useState('');
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const socketRef = useSocket();
+  const dispatch = useDispatch();
 
+  const { message } = useSelector((state: initialState) => state.user);
+
+  useEffect(() => {
+    if (message === `Welcome ${name}`) {
+      axiosInstance
+        .get('/rooms')
+        .then((response) => {
+          response.data.map((val: Room) => dispatch(addRoom(val)));
+          // handleClose();
+          console.log('Data', response.data);
+        })
+        .catch((e) => {
+          console.error('error', e);
+        });
+    }
+  }, [dispatch, message, name]);
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleClose = () => setOpen(false);
 
   const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -22,54 +48,56 @@ const FormDialog = () => {
     const formData = new FormData(event.currentTarget);
     const formJson = Object.fromEntries(formData.entries());
     const name = formJson.name;
-    console.log(name);
-    handleClose();
+    setName(name.toString());
+    socketRef.current?.emit('login', { username: name });
   };
 
   return (
-    <Dialog
-      open={open}
-      disableEscapeKeyDown={true}
-      fullScreen={fullScreen}
-      fullWidth={true}
-      PaperProps={{
-        component: 'form',
-        onSubmit: handleOnSubmit,
-      }}
-      className="dialog-component"
-      aria-labelledby="responsive-dialog-title"
-      data-testid="dialog-component"
-    >
-      <DialogTitle
-        id="responsive-dialog-title"
-        className="dialog-header"
-        data-testid="dialog-header"
+    <>
+      <Dialog
+        open={open}
+        disableEscapeKeyDown={true}
+        fullScreen={fullScreen}
+        fullWidth={true}
+        PaperProps={{
+          component: 'form',
+          onSubmit: handleOnSubmit,
+        }}
+        className="dialog-component"
+        aria-labelledby="responsive-dialog-title"
+        data-testid="dialog-component"
       >
-        Login
-      </DialogTitle>
-      <DialogContent>
-        <DialogContentText data-testid="dialog-content">
-          Please enter your name
-        </DialogContentText>
-        <TextField
-          autoFocus
-          required
-          margin="dense"
-          id="name"
-          name="name"
-          label="Name"
-          type="text"
-          fullWidth
-          variant="standard"
-          data-testid="user-input"
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button type="submit" data-testid="submit-button">
+        <DialogTitle
+          id="responsive-dialog-title"
+          className="dialog-header"
+          data-testid="dialog-header"
+        >
           Login
-        </Button>
-      </DialogActions>
-    </Dialog>
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText data-testid="dialog-content">
+            Please enter your name
+          </DialogContentText>
+          <TextField
+            autoFocus
+            required
+            margin="dense"
+            id="name"
+            name="name"
+            label="Name"
+            type="text"
+            fullWidth
+            variant="standard"
+            data-testid="user-input"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button type="submit" data-testid="submit-button">
+            Login
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 };
 
