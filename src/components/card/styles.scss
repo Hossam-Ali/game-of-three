@@ -1,10 +1,43 @@
 .card-component {
   display: flex;
+  align-items: center;
+
+  & .player-game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    & button {
+      font-size: 1.25rem;
+      cursor: unset;
+      margin-bottom: 10px;
+    }
+
+    & .right-avatar {
+      background-color: #4caf50;
+    }
+  }
+
+  & .avatar-img {
+    margin-top: 4.5rem;
+  }
+
+  & .card-items {
+    height: 90px;
+  }
 }
+
 .left {
   flex-direction: row;
+
+  & .avatar-img {
+    margin-right: 1rem;
+  }
 }
 
 .right {
   flex-direction: row-reverse;
+  & .avatar-img {
+    margin-left: 1rem;
+  }
 }

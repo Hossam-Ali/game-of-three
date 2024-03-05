@@ -5,7 +5,7 @@ describe('ChatCard Component', () => {
   it('renders with custom props', () => {
     render(<ChatCard direction="right" choosedNumber={5} />);
 
-    const badgeElement = screen.getByTestId('badge');
+    const badgeElement = screen.getByTestId('choosedNumber');
     const cardElement = screen.getByTestId('card');
 
     expect(badgeElement).toBeInTheDocument();

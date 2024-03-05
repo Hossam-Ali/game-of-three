@@ -1,9 +1,11 @@
 import { FC } from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import Badge from '@mui/material/Badge';
+import Fab from '@mui/material/Fab';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import Avatar from '@mui/material/Avatar';
+import { lightBlue } from '@mui/material/colors';
 import './styles.scss';
 
 interface ChatCardProps {
@@ -16,23 +18,38 @@ const ChatCard: FC<ChatCardProps> = ({
   choosedNumber = 1,
 }) => (
   <Box className={`card-component ${direction}`}>
-    <Badge
-      badgeContent={choosedNumber}
-      color="primary"
-      showZero
-      data-testid="badge"
+    <Avatar
+      sx={{ bgcolor: direction === 'left' ? lightBlue[500] : '#4caf50' }}
+      className="avatar-img"
     >
-      <Card data-testid="card">
+      N
+    </Avatar>
+
+    <div className="player-game">
+      <Fab
+        color="primary"
+        aria-label="add"
+        data-testid="choosedNumber"
+        className={direction === 'right' ? 'right-avatar' : ''}
+      >
+        {choosedNumber}
+      </Fab>
+
+      <Card className="card-items" data-testid="card">
         <CardContent>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          <Typography
+            sx={{ fontSize: 14, color: 'blue' }}
+            color="text.secondary"
+            gutterBottom
+          >
             [ ( -1+19 ) / 3 ] = 6
           </Typography>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          <Typography sx={{ fontSize: 24 }} color="text.secondary" gutterBottom>
             6
           </Typography>
         </CardContent>
       </Card>
-    </Badge>
+    </div>
   </Box>
 );
 

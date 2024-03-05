@@ -1,10 +1,29 @@
 .sidebar-component {
+  & .drawer-component {
+    & > div {
+      padding: 0 1.5rem;
+
+      background-image: linear-gradient(
+        to bottom,
+        #ffffff,
+        #cfd1de,
+        #9ca6be,
+        #637e9f,
+        #165a7f
+      );
+    }
+  }
+
   & .active-room {
-    background-color: #1669bb;
+    background-color: #13599f;
     color: white;
   }
 
   & .list-items {
     padding-top: 0;
+  }
+
+  & .choose-room-text {
+    margin: 1rem 0;
   }
 }

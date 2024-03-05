@@ -12,11 +12,9 @@ const PageContent = () => {
       <Card direction="right" choosedNumber={0} />
       <Card direction="left" choosedNumber={-1} />
       <Card direction="right" choosedNumber={1} />
-      <Card direction="left" choosedNumber={0} />
-      <Card direction="right" choosedNumber={-1} />
 
       <ButtonGroup
-        variant="text"
+        variant="outlined"
         aria-label="Basic button group"
         className="action-group"
       >

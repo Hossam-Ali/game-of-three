@@ -9,9 +9,10 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import CasinoOutlinedIcon from '@mui/icons-material/CasinoOutlined';
+import Typography from '@mui/material/Typography';
 import './styles.scss';
 
-const drawerWidth = 240;
+const drawerWidth = 270;
 
 interface SidebarProps {
   content: ReactNode;
@@ -28,6 +29,7 @@ const Sidebar: FC<SidebarProps> = ({ content }) => {
       <CssBaseline />
 
       <Drawer
+        className="drawer-component"
         sx={{
           width: drawerWidth,
           flexShrink: 0,
@@ -40,6 +42,14 @@ const Sidebar: FC<SidebarProps> = ({ content }) => {
         anchor="left"
       >
         <Toolbar />
+        <Typography
+          sx={{ fontSize: 18 }}
+          color="text"
+          gutterBottom
+          className="choose-room-text"
+        >
+          Choose your room
+        </Typography>
         <List className="list-items">
           {rooms.map((text: string, ind: number) => (
             <ListItem
