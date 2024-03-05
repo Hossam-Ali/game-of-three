@@ -43,7 +43,7 @@ const Sidebar: FC<SidebarProps> = ({ content }) => {
       >
         <Toolbar />
         <Typography
-          sx={{ fontSize: 18 }}
+          sx={{ fontSize: 20 }}
           color="text"
           gutterBottom
           className="choose-room-text"

@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import PageContent from './containers/pageContent';
 import Header from './components/header';
-// import Dialog from './components/dialog';
+import Dialog from './components/dialog';
 import { setName } from './redux/user';
 import useSocket from './hooks/socket';
 
@@ -28,7 +28,7 @@ function App() {
 
   return (
     <>
-      {/* <Dialog /> */}
+      <Dialog />
       <Header />
       <PageContent />
       <button

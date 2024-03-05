@@ -19,7 +19,7 @@ const ChatCard: FC<ChatCardProps> = ({
 }) => (
   <Box className={`card-component ${direction}`}>
     <Avatar
-      sx={{ bgcolor: direction === 'left' ? lightBlue[500] : '#61c77a' }}
+      sx={{ bgcolor: direction === 'left' ? lightBlue[500] : '#c6c6c6' }}
       className="avatar-img"
     >
       N

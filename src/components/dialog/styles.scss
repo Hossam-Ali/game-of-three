@@ -1,4 +1,6 @@
 .dialog-component {
+  backdrop-filter: blur(20px);
+
   & .MuiDialogTitle-root {
     text-align: center;
   }
