@@ -3,3 +3,8 @@ export interface LoginResponse {
   message: string;
   socketId: string;
 }
+
+interface SidebarProps {
+  content: ReactNode;
+  rooms: Room[];
+}

@@ -1,4 +1,4 @@
-import { ReactNode, useState, FC } from 'react';
+import { useState, FC } from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,17 +10,14 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import CasinoOutlinedIcon from '@mui/icons-material/CasinoOutlined';
 import Typography from '@mui/material/Typography';
+import { Room } from '../../redux/types';
+import { SidebarProps } from '../../types';
 import './styles.scss';
 
 const drawerWidth = 270;
 
-interface SidebarProps {
-  content: ReactNode;
-}
-
-const Sidebar: FC<SidebarProps> = ({ content }) => {
+const Sidebar: FC<SidebarProps> = ({ content, rooms }) => {
   const [currentRoom, setCurrentRoom] = useState(0);
-  const rooms = ['Berlin CPU', 'Amsterdam CPU', 'Hossam'];
 
   const handleRoomChange = (ind: number) => setCurrentRoom(ind);
 
@@ -51,9 +48,9 @@ const Sidebar: FC<SidebarProps> = ({ content }) => {
           Choose your room
         </Typography>
         <List className="list-items">
-          {rooms.map((text: string, ind: number) => (
+          {rooms.map((room: Room, ind: number) => (
             <ListItem
-              key={text}
+              key={room.owner}
               disablePadding
               onClick={() => handleRoomChange(ind)}
               className={currentRoom === ind ? 'active-room' : ''}
@@ -63,7 +60,7 @@ const Sidebar: FC<SidebarProps> = ({ content }) => {
                 <ListItemIcon>
                   <CasinoOutlinedIcon />
                 </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemText primary={room.name} />
               </ListItemButton>
             </ListItem>
           ))}

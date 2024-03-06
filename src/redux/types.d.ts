@@ -1,5 +1,7 @@
 export interface initialState {
   user: User;
+  rooms: Room[];
+  loading: boolean;
 }
 
 export interface User {

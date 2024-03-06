@@ -2,8 +2,9 @@ import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { Socket } from 'socket.io';
 import io from 'socket.io-client';
-import { LoginResponse } from '../types';
 import { setName, setMessage, setLoggedIn } from '../redux/user';
+import { setLoading } from '../redux/loading';
+import { LoginResponse } from '../types';
 
 const useSocket = () => {
   const socketRef = useRef<Socket | null>(null);
@@ -17,6 +18,7 @@ const useSocket = () => {
     };
 
     const handleServerMessage = (data: LoginResponse) => {
+      dispatch(setLoading(true));
       if (data.socketId) {
         handleLoginMessage(data);
       }

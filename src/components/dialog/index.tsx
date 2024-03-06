@@ -9,10 +9,12 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import Loader from '../loader';
 import axiosInstance from '../services';
 import useSocket from '../../hooks/socket';
 import { Room, initialState } from '../../redux/types';
 import { addRoom } from '../../redux/rooms';
+import { setLoading } from '../../redux/loading';
 import './styles.scss';
 
 const FormDialog = () => {
@@ -24,6 +26,7 @@ const FormDialog = () => {
   const dispatch = useDispatch();
 
   const { message } = useSelector((state: initialState) => state.user);
+  const isLoading = useSelector((state: initialState) => state.loading);
 
   useEffect(() => {
     if (message === `Welcome ${name}`) {
@@ -31,16 +34,13 @@ const FormDialog = () => {
         .get('/rooms')
         .then((response) => {
           response.data.map((val: Room) => dispatch(addRoom(val)));
-          // handleClose();
-          console.log('Data', response.data);
+          handleClose();
         })
-        .catch((e) => {
-          console.error('error', e);
-        });
+        .catch((e) => console.error('error', e))
+        .finally(() => dispatch(setLoading(false)));
     }
   }, [dispatch, message, name]);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleClose = () => setOpen(false);
 
   const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -54,49 +54,53 @@ const FormDialog = () => {
 
   return (
     <>
-      <Dialog
-        open={open}
-        disableEscapeKeyDown={true}
-        fullScreen={fullScreen}
-        fullWidth={true}
-        PaperProps={{
-          component: 'form',
-          onSubmit: handleOnSubmit,
-        }}
-        className="dialog-component"
-        aria-labelledby="responsive-dialog-title"
-        data-testid="dialog-component"
-      >
-        <DialogTitle
-          id="responsive-dialog-title"
-          className="dialog-header"
-          data-testid="dialog-header"
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <Dialog
+          open={open}
+          disableEscapeKeyDown={true}
+          fullScreen={fullScreen}
+          fullWidth={true}
+          PaperProps={{
+            component: 'form',
+            onSubmit: handleOnSubmit,
+          }}
+          className="dialog-component"
+          aria-labelledby="responsive-dialog-title"
+          data-testid="dialog-component"
         >
-          Login
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText data-testid="dialog-content">
-            Please enter your name
-          </DialogContentText>
-          <TextField
-            autoFocus
-            required
-            margin="dense"
-            id="name"
-            name="name"
-            label="Name"
-            type="text"
-            fullWidth
-            variant="standard"
-            data-testid="user-input"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button type="submit" data-testid="submit-button">
+          <DialogTitle
+            id="responsive-dialog-title"
+            className="dialog-header"
+            data-testid="dialog-header"
+          >
             Login
-          </Button>
-        </DialogActions>
-      </Dialog>
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText data-testid="dialog-content">
+              Please enter your name
+            </DialogContentText>
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              id="name"
+              name="name"
+              label="Name"
+              type="text"
+              fullWidth
+              variant="standard"
+              data-testid="user-input"
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button type="submit" data-testid="submit-button">
+              Login
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
     </>
   );
 };
