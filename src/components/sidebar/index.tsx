@@ -1,4 +1,5 @@
 import { useState, FC } from 'react';
+import { useSelector } from 'react-redux';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,14 +11,16 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import CasinoOutlinedIcon from '@mui/icons-material/CasinoOutlined';
 import Typography from '@mui/material/Typography';
-import { Room } from '../../redux/types';
+import { Room, initialState } from '../../redux/types';
 import { SidebarProps } from '../../types';
+import Loader from '../loader';
 import './styles.scss';
 
 const drawerWidth = 270;
 
 const Sidebar: FC<SidebarProps> = ({ content, rooms }) => {
   const [currentRoom, setCurrentRoom] = useState(0);
+  const isLoading = useSelector((state: initialState) => state.loading);
 
   const handleRoomChange = (ind: number) => setCurrentRoom(ind);
 
@@ -47,24 +50,28 @@ const Sidebar: FC<SidebarProps> = ({ content, rooms }) => {
         >
           Choose your room
         </Typography>
-        <List className="list-items">
-          {rooms.map((room: Room, ind: number) => (
-            <ListItem
-              key={room.owner}
-              disablePadding
-              onClick={() => handleRoomChange(ind)}
-              className={currentRoom === ind ? 'active-room' : ''}
-              data-testid="rooms-list"
-            >
-              <ListItemButton>
-                <ListItemIcon>
-                  <CasinoOutlinedIcon />
-                </ListItemIcon>
-                <ListItemText primary={room.name} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <List className="list-items">
+            {rooms.map((room: Room, ind: number) => (
+              <ListItem
+                key={room.owner}
+                disablePadding
+                onClick={() => handleRoomChange(ind)}
+                className={currentRoom === ind ? 'active-room' : ''}
+                data-testid="rooms-list"
+              >
+                <ListItemButton>
+                  <ListItemIcon>
+                    <CasinoOutlinedIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={room.name} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+        )}
       </Drawer>
       <Box
         component="main"

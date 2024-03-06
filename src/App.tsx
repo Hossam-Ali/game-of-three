@@ -1,11 +1,14 @@
+import Cookies from 'js-cookie';
 import PageContent from './containers/pageContent';
 import Header from './components/header';
 import Dialog from './components/dialog';
 
 function App() {
+  const isLoggedIn = Cookies.get('isLoggedIn');
+
   return (
     <>
-      <Dialog />
+      {!isLoggedIn && <Dialog />}
       <Header />
       <PageContent />
     </>

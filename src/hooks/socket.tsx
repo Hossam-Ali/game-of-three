@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { Socket } from 'socket.io';
 import io from 'socket.io-client';
-import { setName, setMessage, setLoggedIn } from '../redux/user';
+import { setName, setMessage, setLoginUser } from '../redux/user';
 import { setLoading } from '../redux/loading';
 import { LoginResponse } from '../types';
 
@@ -14,7 +14,7 @@ const useSocket = () => {
     const handleLoginMessage = (data: LoginResponse) => {
       dispatch(setMessage(data.message));
       dispatch(setName(data.user));
-      dispatch(setLoggedIn(true));
+      dispatch(setLoginUser(true));
     };
 
     const handleServerMessage = (data: LoginResponse) => {

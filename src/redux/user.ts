@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User } from './types.d';
 
@@ -21,13 +22,23 @@ export const userSlice = createSlice({
     setCurrentRoom: (state, action: PayloadAction<string>) => {
       state.currentRoom = action.payload;
     },
-    setLoggedIn: (state, action: PayloadAction<boolean>) => {
+    setLoginUser: (state, action) => {
       state.loggedIn = action.payload;
+      Cookies.set('isLoggedIn', JSON.stringify(action.payload));
+    },
+    usetLogoutUser: (state, action) => {
+      state.loggedIn = action.payload;
+      Cookies.remove('isLoggedIn');
     },
   },
 });
 
-export const { setName, setMessage, setCurrentRoom, setLoggedIn } =
-  userSlice.actions;
+export const {
+  setName,
+  setMessage,
+  setCurrentRoom,
+  setLoginUser,
+  usetLogoutUser,
+} = userSlice.actions;
 
 export default userSlice.reducer;

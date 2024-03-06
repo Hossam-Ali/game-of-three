@@ -9,12 +9,10 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-import Loader from '../loader';
-import axiosInstance from '../services';
-import useSocket from '../../hooks/socket';
-import { Room, initialState } from '../../redux/types';
-import { addRoom } from '../../redux/rooms';
+import { initialState } from '../../redux/types';
 import { setLoading } from '../../redux/loading';
+import useSocket from '../../hooks/socket';
+import Loader from '../loader';
 import './styles.scss';
 
 const FormDialog = () => {
@@ -30,20 +28,15 @@ const FormDialog = () => {
 
   useEffect(() => {
     if (message === `Welcome ${name}`) {
-      axiosInstance
-        .get('/rooms')
-        .then((response) => {
-          response.data.map((val: Room) => dispatch(addRoom(val)));
-          handleClose();
-        })
-        .catch((e) => console.error('error', e))
-        .finally(() => dispatch(setLoading(false)));
+      dispatch(setLoading(false));
+      handleClose();
     }
   }, [dispatch, message, name]);
 
   const handleClose = () => setOpen(false);
 
   const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    dispatch(setLoading(true));
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const formJson = Object.fromEntries(formData.entries());
