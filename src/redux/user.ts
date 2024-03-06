@@ -6,7 +6,6 @@ const initialState: User = {
   name: 'test',
   message: '',
   currentRoom: '0',
-  loggedIn: false,
 };
 
 export const userSlice = createSlice({
@@ -22,12 +21,10 @@ export const userSlice = createSlice({
     setCurrentRoom: (state, action: PayloadAction<string>) => {
       state.currentRoom = action.payload;
     },
-    setLoginUser: (state, action) => {
-      state.loggedIn = action.payload;
+    setLoginUser: (_state, action) => {
       Cookies.set('isLoggedIn', JSON.stringify(action.payload));
     },
-    usetLogoutUser: (state, action) => {
-      state.loggedIn = action.payload;
+    usetLogoutUser: () => {
       Cookies.remove('isLoggedIn');
     },
   },

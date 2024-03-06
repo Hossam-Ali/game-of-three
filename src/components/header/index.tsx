@@ -25,7 +25,7 @@ const Header = () => {
   };
 
   const handleCloseUserMenu = () => {
-    dispatch(usetLogoutUser(false));
+    dispatch(usetLogoutUser());
     setAnchorElUser(null);
     location.reload();
   };
