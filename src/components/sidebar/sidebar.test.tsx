@@ -2,10 +2,20 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import Sidebar from './index';
 
 describe('Sidebar Component', () => {
-  const content = <h1>test</h1>;
+  const defaultProps = {
+    content: <h1>test</h1>,
+    rooms: [
+      {
+        id: '1',
+        name: 'Hossam',
+        owner: 'Amira',
+        type: 'cpu',
+      },
+    ],
+  };
 
   it('renders Sidebar component correctly', () => {
-    render(<Sidebar content={content} />);
+    render(<Sidebar {...defaultProps} />);
 
     // Check if the component is rendered
     expect(screen.getByText('Berlin CPU')).toBeInTheDocument();
@@ -14,7 +24,7 @@ describe('Sidebar Component', () => {
   });
 
   it('handles room change on click', () => {
-    render(<Sidebar content={content} />);
+    render(<Sidebar {...defaultProps} />);
 
     // Find the list item and click it
     const listItem = screen.getByText('Amsterdam CPU');
