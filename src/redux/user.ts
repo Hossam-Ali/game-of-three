@@ -4,7 +4,6 @@ import { User } from './types.d';
 
 const initialState: User = {
   name: 'test',
-  message: '',
   currentRoom: '0',
 };
 
@@ -14,9 +13,6 @@ export const userSlice = createSlice({
   reducers: {
     setName: (state, action: PayloadAction<string>) => {
       state.name = action.payload;
-    },
-    setMessage: (state, action: PayloadAction<string>) => {
-      state.message = action.payload;
     },
     setCurrentRoom: (state, action: PayloadAction<string>) => {
       state.currentRoom = action.payload;
@@ -30,12 +26,7 @@ export const userSlice = createSlice({
   },
 });
 
-export const {
-  setName,
-  setMessage,
-  setCurrentRoom,
-  setLoginUser,
-  usetLogoutUser,
-} = userSlice.actions;
+export const { setName, setCurrentRoom, setLoginUser, usetLogoutUser } =
+  userSlice.actions;
 
 export default userSlice.reducer;

@@ -1,26 +1,35 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { Socket } from 'socket.io';
 import io from 'socket.io-client';
-import { setName, setMessage, setLoginUser } from '../redux/user';
+import { setName, setLoginUser } from '../redux/user';
+import { setMessage } from '../redux/message';
 import { setLoading } from '../redux/loading';
-import { LoginResponse } from '../types';
+import { MessageResponse } from '../types';
 
 const useSocket = () => {
   const socketRef = useRef<Socket | null>(null);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const handleLoginMessage = (data: LoginResponse) => {
-      dispatch(setMessage(data.message));
-      dispatch(setName(data.user));
-      dispatch(setLoginUser(true));
-    };
+  const handleLoginMessage = (data: MessageResponse) => {
+    dispatch(setMessage(data.message));
+    dispatch(setName(data.user));
+    dispatch(setLoginUser(true));
+  };
 
-    const handleServerMessage = (data: LoginResponse) => {
+  const handleJoinRoom = (data: MessageResponse) => {
+    dispatch(setMessage(data.message));
+  };
+
+  useEffect(() => {
+    const handleServerMessage = (data: MessageResponse) => {
       dispatch(setLoading(true));
       if (data.socketId) {
         handleLoginMessage(data);
+      }
+      if (data.room) {
+        handleJoinRoom(data);
       }
     };
 
@@ -39,7 +48,7 @@ const useSocket = () => {
         socketRef.current = null;
       }
     };
-  }, [dispatch]);
+  }, []);
 
   return socketRef;
 };

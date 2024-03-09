@@ -2,6 +2,7 @@ import Cookies from 'js-cookie';
 import PageContent from './containers/pageContent';
 import Header from './components/header';
 import Dialog from './components/dialog';
+import Toast from './components/toast';
 
 function App() {
   const isLoggedIn = Cookies.get('isLoggedIn');
@@ -11,6 +12,7 @@ function App() {
       {!isLoggedIn && <Dialog />}
       <Header />
       <PageContent />
+      <Toast />
     </>
   );
 }

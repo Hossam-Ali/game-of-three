@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Card from '../../components/card';
 import Sidebar from '../../components/sidebar';
@@ -15,6 +16,7 @@ const PageContent = () => {
   const dispatch = useDispatch();
 
   const rooms = useSelector((state: initialState) => state.rooms);
+  const user = useSelector((state: initialState) => state.user);
 
   useEffect(() => {
     dispatch(setLoading(true));
@@ -46,9 +48,14 @@ const PageContent = () => {
     </>
   );
 
+  const chooseRoom = <Typography>Please join a room </Typography>;
+
   return (
     <Box className="page-content-container">
-      <Sidebar content={content} rooms={rooms} />
+      <Sidebar
+        content={user.currentRoom === '0' ? chooseRoom : content}
+        rooms={rooms}
+      />
     </Box>
   );
 };

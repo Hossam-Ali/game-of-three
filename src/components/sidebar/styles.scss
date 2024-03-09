@@ -12,11 +12,20 @@
         #165a7f
       );
     }
+
+    .casino-icon {
+      min-width: 35px;
+    }
   }
 
   & .active-room {
     background-color: #13599f;
     color: white;
+    pointer-events: none;
+
+    & svg {
+      fill: white;
+    }
   }
 
   & .list-items {

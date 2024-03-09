@@ -2,11 +2,11 @@ export interface initialState {
   user: User;
   rooms: Room[];
   loading: boolean;
+  message: string;
 }
 
 export interface User {
   name: string;
-  message: string;
   currentRoom: string;
 }
 

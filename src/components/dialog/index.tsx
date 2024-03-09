@@ -23,7 +23,7 @@ const FormDialog = () => {
   const socketRef = useSocket();
   const dispatch = useDispatch();
 
-  const { message } = useSelector((state: initialState) => state.user);
+  const message = useSelector((state: initialState) => state.message);
   const isLoading = useSelector((state: initialState) => state.loading);
 
   useEffect(() => {

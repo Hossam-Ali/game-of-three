@@ -1,7 +1,8 @@
-export interface LoginResponse {
+export interface MessageResponse {
   user: string;
   message: string;
-  socketId: string;
+  socketId?: string;
+  room?: string;
 }
 
 interface SidebarProps {
