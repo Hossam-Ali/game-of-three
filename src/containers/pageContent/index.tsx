@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Card from '../../components/card';
+// import Card from '../../components/card';
 import Sidebar from '../../components/sidebar';
 import { Room, initialState } from '../../redux/types';
 import { addRoom } from '../../redux/rooms';
@@ -16,7 +16,7 @@ const PageContent = () => {
   const dispatch = useDispatch();
 
   const rooms = useSelector((state: initialState) => state.rooms);
-  const room = useSelector((state: initialState) => state.room);
+  const { startNumber } = useSelector((state: initialState) => state.room);
 
   // Function to add a new JSX element to the 'content' array
   const addContent = (newElement: ContentType) => {
@@ -37,23 +37,23 @@ const PageContent = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (room.startNumber) {
+    if (startNumber) {
       addContent(
         <>
-          <Typography fontSize={69}>{room.startNumber}</Typography>
+          <Typography fontSize={69}>{startNumber}</Typography>
         </>
       );
     }
-  }, [room.startNumber]);
+  }, [startNumber]);
 
-  const contenasdt = (
-    <>
-      <Card direction="left" choosedNumber={1} />
-      <Card direction="right" choosedNumber={0} />
-      <Card direction="left" choosedNumber={-1} />
-      <Card direction="right" choosedNumber={1} />
-    </>
-  );
+  // const contenasdt = (
+  //   <>
+  //     <Card direction="left" choosedNumber={1} />
+  //     <Card direction="right" choosedNumber={0} />
+  //     <Card direction="left" choosedNumber={-1} />
+  //     <Card direction="right" choosedNumber={1} />
+  //   </>
+  // );
 
   return (
     <Box className="page-content-container">

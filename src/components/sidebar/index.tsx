@@ -15,7 +15,7 @@ import CasinoOutlinedIcon from '@mui/icons-material/CasinoOutlined';
 import Typography from '@mui/material/Typography';
 import useSocket from '../../hooks/socket';
 import { Room, initialState } from '../../redux/types';
-import { setStartNumber } from '../../redux/room';
+import { setChoosenNumber, setStartNumber } from '../../redux/room';
 import { setCurrentRoom, setGameStart } from '../../redux/user';
 import { setLoading } from '../../redux/loading';
 import { SidebarProps } from '../../types';
@@ -30,26 +30,45 @@ const Sidebar: FC<SidebarProps> = ({ content, rooms }) => {
   const dispatch = useDispatch();
 
   const isLoading = useSelector((state: initialState) => state.loading);
-  const user = useSelector((state: initialState) => state.user);
   const message = useSelector((state: initialState) => state.message);
+  const { name, currentRoom, gameStart } = useSelector(
+    (state: initialState) => state.user
+  );
+  const { startNumber } = useSelector((state: initialState) => state.room);
 
   useEffect(() => {
-    if (message === `welcome to room ${user.currentRoom}`) {
+    if (message === `welcome to room ${currentRoom}`) {
       dispatch(setLoading(false));
     }
   }, [dispatch, message]);
 
   const handleRoomChange = (room: Room) => {
     socketRef.current?.emit('joinRoom', {
-      username: user.name,
+      username: name,
       room: room.name,
       roomType: room.type,
     });
     dispatch(setCurrentRoom(room.name));
   };
 
+  const handleButtonGroupClick = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    const clickedButton = (event.target as HTMLElement).closest('button');
+
+    if (clickedButton) {
+      const buttonValue = Number(clickedButton.getAttribute('data-value'));
+      dispatch(setChoosenNumber(buttonValue));
+      socketRef.current?.emit('sendNumber', {
+        number: startNumber,
+        selectedNumber: buttonValue,
+      });
+      console.log((startNumber + buttonValue) / 3);
+    }
+  };
+
   const handleContentChange = () => {
-    if (user.currentRoom && !user.gameStart) {
+    if (currentRoom && !gameStart) {
       return (
         <div className="start-game">
           <Button
@@ -62,7 +81,7 @@ const Sidebar: FC<SidebarProps> = ({ content, rooms }) => {
           </Button>
         </div>
       );
-    } else if (user.currentRoom && user.gameStart) {
+    } else if (currentRoom && gameStart) {
       return (
         <>
           {content}
@@ -70,10 +89,11 @@ const Sidebar: FC<SidebarProps> = ({ content, rooms }) => {
             variant="outlined"
             aria-label="Basic button group"
             className="action-group"
+            onClick={(event) => handleButtonGroupClick(event)}
           >
-            <Button>-1</Button>
-            <Button>0</Button>
-            <Button>1</Button>
+            <Button data-value="-1">-1</Button>
+            <Button data-value="0">0</Button>
+            <Button data-value="1">1</Button>
           </ButtonGroup>
         </>
       );
@@ -123,7 +143,7 @@ const Sidebar: FC<SidebarProps> = ({ content, rooms }) => {
                 key={room.owner}
                 disablePadding
                 onClick={() => handleRoomChange(room)}
-                className={user.currentRoom === room.name ? 'active-room' : ''}
+                className={currentRoom === room.name ? 'active-room' : ''}
                 data-testid="rooms-list"
               >
                 <ListItemButton>

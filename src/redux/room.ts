@@ -4,6 +4,7 @@ import { RoomDetails } from './types.d';
 const initialState: RoomDetails = {
   startNumber: 0,
   currentNumber: 0,
+  choosenNumber: 0,
 };
 
 export const roomSlice = createSlice({
@@ -16,9 +17,13 @@ export const roomSlice = createSlice({
     setCurrentNumber: (state, action: PayloadAction<number>) => {
       state.currentNumber = action.payload;
     },
+    setChoosenNumber: (state, action: PayloadAction<number>) => {
+      state.choosenNumber = action.payload;
+    },
   },
 });
 
-export const { setStartNumber, setCurrentNumber } = roomSlice.actions;
+export const { setStartNumber, setCurrentNumber, setChoosenNumber } =
+  roomSlice.actions;
 
 export default roomSlice.reducer;

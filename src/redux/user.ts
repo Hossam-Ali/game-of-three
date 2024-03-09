@@ -29,6 +29,7 @@ export const userSlice = createSlice({
       Cookies.set('isLoggedIn', JSON.stringify(action.payload));
     },
     usetLogoutUser: () => {
+      localStorage.clear();
       Cookies.remove('isLoggedIn');
     },
   },

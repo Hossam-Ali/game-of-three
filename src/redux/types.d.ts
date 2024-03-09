@@ -23,4 +23,5 @@ export interface Room {
 export interface RoomDetails {
   startNumber: number;
   currentNumber: number;
+  choosenNumber: number;
 }
